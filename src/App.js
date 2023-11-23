@@ -6,54 +6,34 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
 import Payment, { Debitcard, Netbanking, Upi } from "./components/Payment";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Account from "./components/Account";
 import Admin from "./components/Admin";
 import Users from "./components/Users";
 import AdminLogin from "./components/AdminLogin";
 import ProductList from "./components/ProductList";
 import ProdEdit from "./components/ProdEdit";
-import { furnicture } from "./components/img";
+// import { furnicture } from "./components/img";
 import AddProduct from "./components/AddProduct";
+import axios from "axios";
 
 export const myContext = createContext();
-// export const cartContext = createContext();
-// export const countContext = createContext();
 
 function App() {
-  const [userData, setUserData] = useState([
-    {
-      username: "Bijeesh",
-      password: "111",
-      email: "bijeesh@gmail.com",
-    },
-    {
-      username: "Arun",
-      password: "111",
-      email: "arun@gmail.com",
-    },
-    {
-      username: "Bob",
-      password: "111",
-      email: "bob@gmail.com",
-    },
-    {
-      username: "Mohan",
-      password: "111",
-      email: "mohan@gmail.com",
-    },
-    {
-      username: "Bain",
-      password: "111",
-      email: "bain@gmail.com",
-    },
-  ]);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [currentUser, setCurrentUser] = useState("");
   const [isSubmit, setIsSubmit] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [count, setCount] = useState(0);
   const [isLogin, setIsLogin] = useState(false);
-  const [products, setProducts] = useState(furnicture);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/admin/product", { withCredentials: true })
+      .then((res) => setProducts(res.data.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <myContext.Provider

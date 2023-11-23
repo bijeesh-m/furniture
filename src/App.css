@@ -318,3 +318,54 @@ align-items: center;
   justify-content: space-between;
   align-items: center;
 }
+
+
+
+@media (max-width: 720px) {
+  #nav-image{
+    width: 100px;
+    height: 27px;
+  }
+  .home-search-box{
+    width: 60px;
+    font-size: smaller;
+  }
+  #btn-home-login{
+    
+    font-size:xx-small;
+
+  }
+  .icons{
+    width: 100px;
+  }
+  #username{
+    font-size: 15px;
+    padding-top: 5px;
+  }
+  #account-icon{
+    width: 15px;
+    height: 15px;
+  }
+  #cart-icon{
+    width: 15px;
+    height: 15px;
+  }
+  #cart-icon:hover{
+    width:16px;
+    height:16px;
+    transition: all 0.1s ease-out;
+    top: -1px;
+    
+  }
+  #count-number{
+    font-size: x-small;
+  }
+
+  #login-text{
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+    /* padding:5px ; */
+    /* padding-bottom: 5px; */
+  }
+}

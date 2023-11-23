@@ -1,33 +1,33 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { myContext } from "../App";
+import axios from "axios";
 
 const ProdEdit = () => {
   const navigate = useNavigate();
-  const { products, setProducts } = useContext(myContext);
+  const { products } = useContext(myContext);
   const { id } = useParams();
 
-  const currentProd = products.find((prod) => prod.id === id);
+  useEffect(() => {});
 
-  const [pName, setName] = useState(currentProd.name);
-  const [imgPath, setImgPath] = useState(currentProd.path);
-  const [price, setPrice] = useState(currentProd.prize);
+  const currentProd = products.find((prod) => prod._id === id);
+  const [title, setName] = useState(currentProd.title);
+  const [image, setImgPath] = useState(currentProd.image);
+  const [price, setPrice] = useState(currentProd.price);
 
   const handleSave = () => {
-    const updatedProd = {
-      ...currentProd,
-      name: pName,
-      prize: price,
-      path: imgPath,
-    };
+    axios
+      .put(
+        `http://localhost:3000/admin/products/${id}`,
+        { image, price, title },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .then((err) => console.log(err));
 
-    const index = products.findIndex((prod) => prod.id === currentProd.id);
-
-    const updatedProducts = [...products];
-    updatedProducts[index] = updatedProd;
-
-    setProducts(updatedProducts);
     alert("Product Updated Successfull");
     navigate("/Admin/ProductList");
   };
@@ -42,7 +42,7 @@ const ProdEdit = () => {
         </div>
 
         {products
-          .filter((item) => item.id === id)
+          .filter((item) => item._id === id)
           .map((itm) => {
             return (
               <div key={itm.id} className="ProdEdit-div">
@@ -54,7 +54,7 @@ const ProdEdit = () => {
                 >
                   <img
                     style={{ width: "90%", padding: "5px" }}
-                    src={imgPath}
+                    src={image}
                     alt="img"
                   />
                 </div>
@@ -73,7 +73,7 @@ const ProdEdit = () => {
                     style={{ width: "80%" }}
                     type="text"
                     name="name"
-                    value={pName}
+                    value={title}
                     onChange={(e) => setName(e.target.value)}
                   />
                   <label>Price:</label>
@@ -93,7 +93,7 @@ const ProdEdit = () => {
                     style={{ width: "80%" }}
                     type="text"
                     name="description"
-                    value={imgPath}
+                    value={image}
                     onChange={(e) => setImgPath(e.target.value)}
                   />
 

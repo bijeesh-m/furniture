@@ -81,7 +81,7 @@ export const furnicture = [
   },
   {
    'id': '11',
-    'name': "Orian Sheesham Wood Single Bed",
+    'name': "Orian Sheesham Wood Single sofa",
     'path': "https://ii1.pepperfry.com/media/catalog/product/b/a/494x544/bali-fabric-1-seater-sofa-in-grey-colour-bali-fabric-1-seater-sofa-in-grey-colour-vnlayt.jpg",
     'description': "Maharaja-Ii Teak Wood 1 Seater Sofa in Walnut Colour",
     'prize': '39399',
@@ -297,7 +297,7 @@ export const furnicture = [
   },
   {
    'id': '38',
-    'name': "Uttara Sheesham Wood Queen Size Bed",
+    'name': "Uttara Sheesham Wood Queen Size sofa",
     'path': "https://ii1.pepperfry.com/media/catalog/product/h/a/494x544/hairo-velvet-2-seater-sofa-in-beige-colour-hairo-velvet-2-seater-sofa-in-beige-colour-hyxfs1.jpg",
     'description': "Maharaja-Ii Teak Wood 1 Seater Sofa in Walnut Colour",
     'prize': '39399',

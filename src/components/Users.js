@@ -1,13 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { myContext } from "../App";
 import { Card, Form } from "react-bootstrap";
+import axios from "axios";
 const Users = () => {
-  const { userData } = useContext(myContext);
+  const { userData, setUserData } = useContext(myContext);
   const [searchItem, setSearchItem] = useState("");
 
   const handleChange = (e) => {
     setSearchItem(e.target.value);
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/admin/users", { withCredentials: true })
+      .then((res) => setUserData(res.data.data))
+      .catch((err) => console.log(err));
+  }, [setUserData]);
 
   return (
     <>
@@ -35,7 +43,7 @@ const Users = () => {
           })
           .map((data) => {
             return (
-              <div key={data.username} className="userDetails">
+              <div key={data._id} className="userDetails">
                 <div></div>
 
                 <img

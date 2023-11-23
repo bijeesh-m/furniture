@@ -8,19 +8,20 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { myContext } from "../App";
+import axios from "axios";
 
 const Login = () => {
-  const { userData } = useContext(myContext);
+  // const { userData } = useContext(myContext);
   const { setIsLogin } = useContext(myContext);
   const [inputValue, setValues] = useState({
     username: "",
     password: "",
   });
-  const { setCurrentUser } = useContext(myContext);
-
+  const {setCurrentUser } = useContext(myContext);
+  // const [currentUser,setCurrentUser] = useState('')
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   };
 
@@ -29,29 +30,36 @@ const Login = () => {
     setValues({ ...inputValue, [name]: value });
   };
 
-  const handleClick = () => {
-    const foundUser = userData.find(
-      (data) =>
-        data.username === inputValue.username &&
-        data.password === inputValue.password
-    );
-
-    if (!inputValue.username) {
-      alert("pls fill the form");
-    } else if (!inputValue.password) {
-      alert("pls fill the form");
-    } else {
-      if (foundUser) {
-        setIsLogin(true);
-        const updateCurrentUser = userData.filter(
-          (data) => data.username === inputValue.username
-        );
-        setCurrentUser(updateCurrentUser);
-        navigate("/");
-      } else {
-        alert("incorrect usename or password");
-      }
+  const handleClick = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/user/login",
+        inputValue,{withCredentials:true}
+      );
+      console.log(response);
+      setIsLogin(true);
+      setCurrentUser(inputValue.username)
+      navigate("/");
+    } catch (err) {
+      // alert(err.response.data.message);
     }
+
+    // if (!inputValue.username) {
+    //   alert("pls fill the form");
+    // } else if (!inputValue.password) {
+    //   alert("pls fill the form");
+    // } else {
+    //   if (foundUser) {
+    //     setIsLogin(true);
+    //     const updateCurrentUser = userData.filter(
+    //       (data) => data.username === inputValue.username
+    //     );
+    //     setCurrentUser(updateCurrentUser);
+    //     navigate("/");
+    //   } else {
+    //     alert("incorrect usename or password");
+    //   }
+    // }
 
     //   if (!foundUsername) {
     //     alert("incorrect username");

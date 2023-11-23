@@ -6,15 +6,12 @@ import { useNavigate } from "react-router-dom";
 const Account = () => {
   const navigate = useNavigate();
   const { setIsLogin } = useContext(myContext);
-  const { currentUser } = useContext(myContext);
-  const username = currentUser.map((data) => {
-    return data.username; // Assuming 'username' is a property in 'data'
-  });
-  const email = currentUser.map((data) => {
-    return data.email; // Assuming 'username' is a property in 'data'
-  });
+  const { userData } = useContext(myContext);
+  const email = userData.map((data) => data.email);
+  const username = userData.map((data) => data.username);
   const handleClick = () => {
     setIsLogin(false);
+    
     navigate("/");
   };
 

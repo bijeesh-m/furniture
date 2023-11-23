@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import {
   Button,
@@ -8,10 +9,10 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const adminData = {
-  username: "Bijeesh",
-  password: "859071",
-};
+// const adminData = {
+//   username: "Bijeesh",
+//   password: "859071",
+// };
 
 const AdminLogin = () => {
   const [inputValue, setInputValue] = useState({
@@ -30,17 +31,33 @@ const AdminLogin = () => {
   };
 
   const handleClick = () => {
-    if (!inputValue.username) {
-      alert("pls fill the form");
-    } else if (!inputValue.password) {
-      alert("pls fill the form");
-    } else if (inputValue.username !== adminData.username) {
-      alert("incorrect username");
-    } else if (inputValue.password !== adminData.password) {
-      alert("incorrect password");
-    } else {
-      navigate("/Admin");
-    }
+    // try {
+    // const response = await axios.post('http://localhost:3000/admin/login',inputValue,{withCredentials:true})
+    // console.log(response.data)
+    // navigate('/admin')
+    // } catch (err) {
+    //   console.log(err.message)
+    //   alert(err.message)
+    // }
+    axios
+      .post("http://localhost:3000/admin/login", inputValue, {
+        withCredentials: true,
+      })
+      .then((res) => navigate("/admin"))
+      .catch((err) => alert(err.message));
+
+    // if (!inputValue.username) {
+    //   alert("pls fill the form");
+    // } else if (!inputValue.password) {
+    //   alert("pls fill the form");
+    // }
+    // } else if (inputValue.username !== adminData.username) {
+    //   alert("incorrect username");
+    // } else if (inputValue.password !== adminData.password) {
+    //   alert("incorrect password");
+    // } else {
+    //   navigate("/Admin");
+    // }
   };
   return (
     <>

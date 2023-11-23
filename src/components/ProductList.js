@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { myContext } from "../App";
+import axios from "axios";
 const ProductList = () => {
   const navigate = useNavigate();
   const { products, setProducts } = useContext(myContext);
@@ -10,6 +11,11 @@ const ProductList = () => {
     setProducts(udata);
     navigate("/Admin/ProductList");
   };
+  useEffect(()=>{
+    axios.get('http://localhost:3000/admin/product',{withCredentials:true})
+    .then((res)=>setProducts(res.data.data))
+    .catch((err)=>console.log(err))
+  },[setProducts])
 
   return (
     <div style={{ marginLeft: "5px", marginRight: "5px" }}>
@@ -71,7 +77,7 @@ const ProductList = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Card.Img className="rounded-0" variant="top" src={item.path} />
+              <Card.Img className="rounded-0" variant="top" src={item.image} />
               <Card.Body
                 style={{
                   width: "15rem",
@@ -80,16 +86,16 @@ const ProductList = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <p style={{ color: "grey" }}>{item.name}</p>
-                <h6>₹ {item.prize}</h6>
+                <p style={{ color: "grey" }}>{item.title}</p>
+                <h6>₹ {item.price}</h6>
                 <div>
-                  <Link to={`/Admin/ProdEdit/${item.id}`}>
+                  <Link to={`/Admin/ProdEdit/${item._id}`}>
                     <Button className="mx-1" variant="primary">
                       Edit
                     </Button>
                   </Link>
 
-                  <Button onClick={() => handleClick(item.id)} variant="danger">
+                  <Button onClick={() => handleClick(item._id)} variant="danger">
                     Delete
                   </Button>
                 </div>

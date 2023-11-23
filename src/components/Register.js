@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
   FormControl,
   FormGroup,
@@ -6,22 +6,25 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-import { myContext } from "../App";
+// import { myContext } from "../App";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [inputValues, setValues] = useState({
     username: "",
     email: "",
     password: "",
-    cpassword: "",
+    // cpassword: "",
   });
+  // const [err, setErr] = useState("");
   const [inputErrors, setInputErrors] = useState({});
-  const { setIsSubmit } = useContext(myContext);
-  const { userData } = useContext(myContext);
+  // const { setIsSubmit } = useContext(myContext);
+  // const { userData } = useContext(myContext);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [smShow, setSmShow] = useState(false);
 
+  useEffect(() => {}, []);
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -30,10 +33,29 @@ const Register = () => {
     setValues({ ...inputValues, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit =  (e) => {
+  //   e.preventDefault();
+  //   setInputErrors(validate(inputValues));
+  //   axios
+  //   .post("http://localhost:3000/user/register", inputValues)
+  //   .then((response) => console.log(response))
+  //   .catch((err) => setErr(err.response.data.message));
+  //   setIsSubmit(true);
+  // };
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    console.log("Before axios.post");
     setInputErrors(validate(inputValues));
-    setIsSubmit(true);
+  
+    try {
+      const response = await axios.post("http://localhost:3000/user/register", inputValues);
+      console.log(response);
+      setSmShow(true)
+    } catch (error) {
+      alert(error.response.data.message)
+    }
+    // setIsSubmit(true);
   };
 
   const validate = (values) => {
@@ -54,19 +76,17 @@ const Register = () => {
     } else if (values.password.length < 3) {
       errors.password = "the password should have minimum 3 characters";
     }
-    if (!values.cpassword) {
-      errors.cpassword = "conforrm the  password";
-    } else if (values.password !== values.cpassword) {
-      errors.cpassword = "doesn't match the above password";
-    } else {
-      const isUser = userData.some((data) => data.username === values.username);
-      if (isUser) {
-        alert("user is found in the database");
-      } else {
-        userData.push(inputValues);
-        setSmShow(true);
-      }
-    }
+    // else if(!values.cpassword){
+    //   errors.cpassword = "conforrm the  password";
+    // }else if(values.password !== values.cpassword) {
+    //     errors.cpassword = "doesn't match the above password";
+    // }
+    // if () {
+    //   
+    // } else if (values.password !== values.cpassword) {
+    //   errors.cpassword = "doesn't match the above password";
+    // }
+    
 
     return errors;
   };
@@ -141,7 +161,7 @@ const Register = () => {
           <p>{inputErrors.password}</p>
         </FormGroup>
         <FormGroup className="mb-3">
-          <FormLabel className="mb-3">Confirm password</FormLabel>
+          {/* <FormLabel className="mb-3">Confirm password</FormLabel>
           <div className="input-group">
             <FormControl
               className="form2-input"
@@ -150,23 +170,23 @@ const Register = () => {
               placeholder="Re-enter password"
               value={inputValues.cpassword}
               onChange={handleChange}
-            />
-            <div className="input-group-append">
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={togglePasswordVisibility}
-              >
-                {passwordVisible ? "Hide" : "Show"}
-              </button>
-            </div>
+            /> */}
+          {/* <div className="input-group-append">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={togglePasswordVisibility}
+            >
+              {passwordVisible ? "Hide" : "Show"}
+            </button>
           </div>
-          <p>{inputErrors.cpassword}</p>
+          </div> */}
+          {/* <p>{inputErrors.cpassword}</p> */}
         </FormGroup>
         <div
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          <button className="btn btn-primary">Register</button>
+          <button className="btn btn-primary">Register </button>
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span
